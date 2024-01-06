@@ -23,8 +23,6 @@ type Repository struct {
 var DB *gorm.DB
 
 func main() {
-	fmt.Println("hELLO WORLD");
-
 	godotenv.Load(".env")
 
 	portString := os.Getenv("PORT")
@@ -87,9 +85,18 @@ func main() {
 }
 
 func connectDatabase() {
-	//dbConnString :=  os.Getenv("SUPABASE_URL")
-	dns := "host=db.bopvsnzxqntkwfxodesi.supabase.co user=postgres password=Malakopedo_123 dbname=postgres port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+	godotenv.Load(".env")
 
+	dbHost := os.Getenv("DB_HOST")
+    dbUser := os.Getenv("DB_USER")
+    dbPassword := os.Getenv("DB_PASSWORD")
+    dbName := os.Getenv("DB_NAME")
+    dbPort := os.Getenv("DB_PORT")
+    dbSslmode := os.Getenv("DB_SSLMODE")
+    dbTimezone := os.Getenv("DB_TIMEZONE")
+
+	dns := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",dbHost,dbUser,dbPassword,dbName,dbPort,dbSslmode,dbTimezone)
+	
 	database , dbErr := gorm.Open(postgres.New(postgres.Config{
 		DSN: dns,
 		PreferSimpleProtocol: true, // disables implicit prepared statement usage
